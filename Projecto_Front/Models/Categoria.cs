@@ -5,8 +5,9 @@ using System.Threading.Tasks;
 
 namespace Projecto_Front.Models
 {
-    public class Pedidos
+    public class Categoria
     {
-        
+        public int id_categoria { get; set; }
+        public string? nome { get; set; }
     }
 }
