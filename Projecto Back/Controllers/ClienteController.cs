@@ -26,7 +26,7 @@ namespace Projecto_Back.Controllers
                     Mensagem = "Credenciais Inválidas!!"
                 };
 
-            var acesso = new AcessoDados(data);
+            var acesso = new ClientesAcessoDados(data);
             var cliente = acesso.LoginClienteCadastradoEmail(email, password);
 
             return Retorno(cliente);
@@ -43,7 +43,7 @@ namespace Projecto_Back.Controllers
                     Mensagem = "Credenciais Inválidas!!"
                 };
 
-            var acesso = new AcessoDados(data);
+            var acesso = new ClientesAcessoDados(data);
             var cliente = acesso.LoginClienteCadastradoTelefone(numero, password);
 
             return Retorno(cliente);
@@ -89,7 +89,7 @@ namespace Projecto_Back.Controllers
                     Mensagem = "Dados do Cliente Inválidos"
                 };
             
-            var dados = new AcessoDados(data);
+            var dados = new ClientesAcessoDados(data);
             return dados.NovoCliente(cliente);
         }   
     }

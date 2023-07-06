@@ -10,11 +10,11 @@ using Projecto_Front.Models;
 
 namespace Projecto_Back.Data
 {
-    public class AcessoDados
+    public class ClientesAcessoDados
     {
         private DataContext? context { get; set; }
 
-        public AcessoDados(DataContext data)
+        public ClientesAcessoDados(DataContext data)
         {
             context = data;
         }
@@ -50,18 +50,86 @@ namespace Projecto_Back.Data
             }
             catch (System.Exception erro)
             {
-                return new RetornoDados(){
+                return new RetornoDados()
+                {
                     Entidade = null,
                     Mensagem = $"Erro ao adicionar novo Cliente: '{erro.Message}'"
                 };
             }
 
             var clienteAdicionado = context.Clientes.FirstOrDefault(cl => cl.contacto == cliente.contacto && cl.email == cliente.email);
-            return new RetornoDados(){
+            return new RetornoDados()
+            {
                 Entidade = clienteAdicionado,
                 Mensagem = "Novo Cliente Adicionado"
-                
+
             };
         }
+    }
+
+    public class ProdutosAcessoDados
+    {
+        private DataContext? context { get; set; }
+
+        public ProdutosAcessoDados(DataContext data)
+        {
+            context = data;
+        }
+
+        public RetornoDados NovoProduto(Produto produto)
+        {
+            try
+            {
+                context.Produtos.Add(produto);
+                context.SaveChanges();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados()
+                {
+                    Entidade = null,
+                    Mensagem = $"Erro ao adicionar novo Produto: '{erro.Message}'"
+                };
+            }
+
+            var produtoAdicionado = context.Produtos.FirstOrDefault(pr => pr.nome == produto.nome && pr.categoriaId == produto.categoriaId);
+            return new RetornoDados()
+            {
+                Entidade = produtoAdicionado,
+                Mensagem = "Produto Adicionado com Sucesso!!"
+            };
+        }
+    }
+
+    public class CategoriasAcessoDados
+    {
+        private DataContext? context { get; set; }
+
+        public CategoriasAcessoDados(DataContext data)
+        {
+            context = data;
+        }
+
+        public RetornoDados NovaCategoria(Categoria categoria){
+            try
+            {
+                context.Categorias.Add(categoria);
+                context.SaveChanges();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados(){
+                    Entidade = null,
+                    Mensagem = $"Erro ao Adicionar nova categoria: {erro.Message}"
+                };
+            }
+
+            var categoriaAdicionada = context.Categorias.FirstOrDefault(cat => cat.nome == categoria.nome);
+            return new RetornoDados(){
+                Entidade = categoriaAdicionada,
+                Mensagem = "Categoria Adicionada com sucesso"
+            };
+            
+        } 
     }
 }
