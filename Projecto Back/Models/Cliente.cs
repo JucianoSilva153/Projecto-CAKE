@@ -10,6 +10,7 @@ namespace Projecto_Front.Models
         public int Id { get; set; }
         public string? nome { get; set; }
         public string? email { get; set; }
+        public string? password { get; set; }
         public int contacto { get; set; }
         public string? endereco { get; set; }
 
