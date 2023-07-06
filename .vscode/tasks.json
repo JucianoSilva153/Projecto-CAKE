@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/Projecto Front/Projecto Front.csproj",
+                "${workspaceFolder}/Projecto Back/Projecto Back.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/Projecto Front/Projecto Front.csproj",
+                "${workspaceFolder}/Projecto Back/Projecto Back.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -33,7 +33,7 @@
                 "watch",
                 "run",
                 "--project",
-                "${workspaceFolder}/Projecto Front/Projecto Front.csproj"
+                "${workspaceFolder}/Projecto Back/Projecto Back.csproj"
             ],
             "problemMatcher": "$msCompile"
         }
