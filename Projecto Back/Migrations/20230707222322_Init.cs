@@ -6,7 +6,7 @@ using MySql.EntityFrameworkCore.Metadata;
 namespace Projecto_Back.Migrations
 {
     /// <inheritdoc />
-    public partial class UpgradeModel2 : Migration
+    public partial class Init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -22,6 +22,7 @@ namespace Projecto_Back.Migrations
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     nome = table.Column<string>(type: "longtext", nullable: true),
                     email = table.Column<string>(type: "longtext", nullable: true),
+                    password = table.Column<string>(type: "longtext", nullable: true),
                     contacto = table.Column<int>(type: "int", nullable: false),
                     endereco = table.Column<string>(type: "longtext", nullable: true)
                 },
@@ -56,7 +57,7 @@ namespace Projecto_Back.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     data = table.Column<string>(type: "longtext", nullable: true),
-                    clienteId = table.Column<int>(type: "int", nullable: false)
+                    clienteId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -65,8 +66,7 @@ namespace Projecto_Back.Migrations
                         name: "FK_Pedidos_Clientes_clienteId",
                         column: x => x.clienteId,
                         principalTable: "Clientes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -77,7 +77,7 @@ namespace Projecto_Back.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     nome = table.Column<string>(type: "longtext", nullable: true),
-                    produtoId = table.Column<int>(type: "int", nullable: false)
+                    produtoId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -86,8 +86,7 @@ namespace Projecto_Back.Migrations
                         name: "FK_Categorias_Produtos_produtoId",
                         column: x => x.produtoId,
                         principalTable: "Produtos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -96,11 +95,11 @@ namespace Projecto_Back.Migrations
                 columns: table => new
                 {
                     pedidosId = table.Column<int>(type: "int", nullable: false),
-                    produtoId = table.Column<int>(type: "int", nullable: false)
+                    produtosId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_PedidoProduto", x => new { x.pedidosId, x.produtoId });
+                    table.PrimaryKey("PK_PedidoProduto", x => new { x.pedidosId, x.produtosId });
                     table.ForeignKey(
                         name: "FK_PedidoProduto_Pedidos_pedidosId",
                         column: x => x.pedidosId,
@@ -108,8 +107,8 @@ namespace Projecto_Back.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_PedidoProduto_Produtos_produtoId",
-                        column: x => x.produtoId,
+                        name: "FK_PedidoProduto_Produtos_produtosId",
+                        column: x => x.produtosId,
                         principalTable: "Produtos",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -122,9 +121,9 @@ namespace Projecto_Back.Migrations
                 column: "produtoId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PedidoProduto_produtoId",
+                name: "IX_PedidoProduto_produtosId",
                 table: "PedidoProduto",
-                column: "produtoId");
+                column: "produtosId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pedidos_clienteId",

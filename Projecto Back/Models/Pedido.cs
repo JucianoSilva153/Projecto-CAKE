@@ -9,11 +9,8 @@ namespace Projecto_Front.Models
     {
         public int Id { get; set; }
         public string? data { get; set; }
-        
-        public int clienteId { get; set; } 
-        public Cliente? cliente{ get; set; } = null!;
 
-        //public List<ItemPedido> itensPedido { get; } =  new ();
-        public List<Produto> produto { get; } =  new List<Produto>();
+        public Cliente? cliente { get; set; }
+        public List<Produto>? produtos { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace Projecto_Front.Context
         public DbSet<Pedido>? Pedidos { get; set; }
         public DbSet<Cliente>? Clientes { get; set; }
         public DbSet<Produto>? Produtos { get; set; }
-        public DbSet<Categoria>? Categorias { get; set; }
+        public DbSet<Categoria> Categorias { get; set; }
 
         private readonly IConfiguration configuration;
 
@@ -26,7 +26,12 @@ namespace Projecto_Front.Context
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseMySQL("server=localhost;database=bd_cake;user=root;password=");
-        }   
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+
+        }
     }
 
 }

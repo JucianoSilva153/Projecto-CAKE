@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projecto_Front.Context;
 
@@ -10,9 +11,11 @@ using Projecto_Front.Context;
 namespace Projecto_Back.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230708180023_Rel_CategoriaProduto_AlterandoAcessoCategoria")]
+    partial class Rel_CategoriaProduto_AlterandoAcessoCategoria
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -99,9 +102,6 @@ namespace Projecto_Back.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("categoriaId")
-                        .HasColumnType("int");
-
                     b.Property<string>("descricao")
                         .HasColumnType("longtext");
 
@@ -118,8 +118,6 @@ namespace Projecto_Back.Migrations
                         .HasColumnType("double");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("categoriaId");
 
                     b.ToTable("Produtos");
                 });
@@ -146,15 +144,6 @@ namespace Projecto_Back.Migrations
                         .HasForeignKey("clienteId");
 
                     b.Navigation("cliente");
-                });
-
-            modelBuilder.Entity("Projecto_Front.Models.Produto", b =>
-                {
-                    b.HasOne("Projecto_Front.Models.Categoria", "categoria")
-                        .WithMany()
-                        .HasForeignKey("categoriaId");
-
-                    b.Navigation("categoria");
                 });
 #pragma warning restore 612, 618
         }

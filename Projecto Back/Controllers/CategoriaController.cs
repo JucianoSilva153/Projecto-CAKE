@@ -16,7 +16,7 @@ namespace Projecto_Back.Controllers
     {
         [HttpPost]
         [Route("Categoria/Nova")]
-        public async Task<RetornoDados> NovaCategoria([FromServices] DataContext data, [FromBody] Categoria categoria)
+        public RetornoDados NovaCategoria([FromServices] DataContext data, [FromBody] Categoria categoria)
         {
             if(categoria is null)
                 return new RetornoDados(){

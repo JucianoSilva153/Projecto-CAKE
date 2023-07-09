@@ -13,11 +13,8 @@ namespace Projecto_Front.Models
         public double preco { get; set; }
         public string? imagem { get; set; }        
         public bool disponivel { get; set; }
-    
-        //public List<ItemPedido> itensPedido { get; } =  new ();
-        public List<Pedido> pedidos { get; } =  new List<Pedido>();
 
-        public int categoriaId { get; set; }
-        public Categoria? categoria { get; set; }
+        public List<Pedido>? pedidos { get; set; }
+        public Categoria? categoria { get; set; } = null;
     }
 }

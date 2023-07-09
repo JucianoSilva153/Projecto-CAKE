@@ -17,7 +17,7 @@ namespace Projecto_Back.Controllers
     {
         [HttpGet]
         [Route("Login/Email/{email}/{password}")]
-        public async Task<RetornoDados> LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
+        public RetornoDados LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
         {
             if (!CredenciaisInseridasEValidos(data, email, password))
                 return new RetornoDados()
@@ -34,7 +34,7 @@ namespace Projecto_Back.Controllers
 
         [HttpGet]
         [Route("Login/Contacto/{numero}/{password}")]
-        public async Task<RetornoDados> LoginClienteviaContacto([FromServices] DataContext data, int numero, string password)
+        public RetornoDados LoginClienteviaContacto([FromServices] DataContext data, int numero, string password)
         {
             if (!CredenciaisInseridasEValidos(data, numero, password))
                 return new RetornoDados()
@@ -63,7 +63,7 @@ namespace Projecto_Back.Controllers
             return true;
         }
 
-        private RetornoDados Retorno(object retornoAcesso)
+        private RetornoDados Retorno(object? retornoAcesso)
         {
             if (retornoAcesso is null)
                 return new RetornoDados()
@@ -81,7 +81,7 @@ namespace Projecto_Back.Controllers
 
         [HttpPost]
         [Route("Cliente/Novo")]
-        public async Task<RetornoDados> AdicionarNovoCliente([FromServices] DataContext data, [FromBody] Cliente cliente)
+        public RetornoDados AdicionarNovoCliente([FromServices] DataContext data, [FromBody] Cliente cliente)
         {
             if(cliente is null)
                 return new RetornoDados(){
