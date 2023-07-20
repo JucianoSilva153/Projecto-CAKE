@@ -16,10 +16,22 @@ namespace Projecto_Back.Controllers
     public class PedidoController : ControllerBase
     {
         [HttpPost]
-        [Route("Pedido/Cliente/Adicionar")]
-        public RetornoDados AdicionarPedidoAoCliente ([FromServices]DataContext data, [FromBody]Pedido pedido){
+        [Route("Pedido/Cliente/Adicionar/{IdCliente}")]
+        public RetornoDados AdicionarPedidoAoCliente ([FromServices]DataContext data,[FromBody]List<Produto>? produtos, int IdCliente){
             var add = new PedidosAcessoDados(data);
-            return add.CriarPedidoDeCliente(pedido);
+            var cliente = data.Clientes.SingleOrDefault(c => c.Id == IdCliente);
+            if(cliente is null)
+                return new RetornoDados(){Entidade = null, Mensagem = "Erro, Cliente não encontrado!!"};
+
+
+            var pedido = new Pedido{
+                IdPedido = Pedido.GerarIdPedido(cliente.nome),
+                data = DateTime.Now.Day + "/" + DateTime.Now.Month + "/" + DateTime.Now.Year,
+                cliente = cliente,
+                produtos = produtos
+            };
+            
+            return add.CriarPedidoDeCliente(pedido, IdCliente);
         }
     }
 }

@@ -11,8 +11,8 @@ using Projecto_Front.Context;
 namespace Projecto_Back.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230707222322_Init")]
-    partial class Init
+    [Migration("20230710205114_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -46,12 +46,7 @@ namespace Projecto_Back.Migrations
                     b.Property<string>("nome")
                         .HasColumnType("longtext");
 
-                    b.Property<int?>("produtoId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("produtoId");
 
                     b.ToTable("Categorias");
                 });
@@ -88,6 +83,9 @@ namespace Projecto_Back.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("IdPedido")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("clienteId")
                         .HasColumnType("int");
 
@@ -101,10 +99,34 @@ namespace Projecto_Back.Migrations
                     b.ToTable("Pedidos");
                 });
 
+            modelBuilder.Entity("Projecto_Front.Models.PedidoProduto", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int>("pedidoId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("produtoId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("pedidoId");
+
+                    b.HasIndex("produtoId");
+
+                    b.ToTable("PedidosProduto");
+                });
+
             modelBuilder.Entity("Projecto_Front.Models.Produto", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<int?>("categoriaId")
                         .HasColumnType("int");
 
                     b.Property<string>("descricao")
@@ -124,6 +146,8 @@ namespace Projecto_Back.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("categoriaId");
+
                     b.ToTable("Produtos");
                 });
 
@@ -142,22 +166,46 @@ namespace Projecto_Back.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Projecto_Front.Models.Categoria", b =>
+            modelBuilder.Entity("Projecto_Front.Models.Pedido", b =>
                 {
+                    b.HasOne("Projecto_Front.Models.Cliente", "cliente")
+                        .WithMany("pedidos")
+                        .HasForeignKey("clienteId");
+
+                    b.Navigation("cliente");
+                });
+
+            modelBuilder.Entity("Projecto_Front.Models.PedidoProduto", b =>
+                {
+                    b.HasOne("Projecto_Front.Models.Pedido", "pedido")
+                        .WithMany()
+                        .HasForeignKey("pedidoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Projecto_Front.Models.Produto", "produto")
                         .WithMany()
-                        .HasForeignKey("produtoId");
+                        .HasForeignKey("produtoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("pedido");
 
                     b.Navigation("produto");
                 });
 
-            modelBuilder.Entity("Projecto_Front.Models.Pedido", b =>
+            modelBuilder.Entity("Projecto_Front.Models.Produto", b =>
                 {
-                    b.HasOne("Projecto_Front.Models.Cliente", "cliente")
+                    b.HasOne("Projecto_Front.Models.Categoria", "categoria")
                         .WithMany()
-                        .HasForeignKey("clienteId");
+                        .HasForeignKey("categoriaId");
 
-                    b.Navigation("cliente");
+                    b.Navigation("categoria");
+                });
+
+            modelBuilder.Entity("Projecto_Front.Models.Cliente", b =>
+                {
+                    b.Navigation("pedidos");
                 });
 #pragma warning restore 612, 618
         }

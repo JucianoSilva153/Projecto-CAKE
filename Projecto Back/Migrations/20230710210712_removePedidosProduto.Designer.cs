@@ -11,8 +11,8 @@ using Projecto_Front.Context;
 namespace Projecto_Back.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230707223338_Rel_CategoriaProduto_AlteradoEntDependente")]
-    partial class Rel_CategoriaProduto_AlteradoEntDependente
+    [Migration("20230710210712_removePedidosProduto")]
+    partial class removePedidosProduto
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -83,6 +83,9 @@ namespace Projecto_Back.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
+                    b.Property<string>("IdPedido")
+                        .HasColumnType("longtext");
+
                     b.Property<int?>("clienteId")
                         .HasColumnType("int");
 
@@ -145,7 +148,7 @@ namespace Projecto_Back.Migrations
             modelBuilder.Entity("Projecto_Front.Models.Pedido", b =>
                 {
                     b.HasOne("Projecto_Front.Models.Cliente", "cliente")
-                        .WithMany()
+                        .WithMany("pedidos")
                         .HasForeignKey("clienteId");
 
                     b.Navigation("cliente");
@@ -158,6 +161,11 @@ namespace Projecto_Back.Migrations
                         .HasForeignKey("categoriaId");
 
                     b.Navigation("categoria");
+                });
+
+            modelBuilder.Entity("Projecto_Front.Models.Cliente", b =>
+                {
+                    b.Navigation("pedidos");
                 });
 #pragma warning restore 612, 618
         }

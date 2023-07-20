@@ -14,6 +14,8 @@ namespace Projecto_Front.Models
         public string? imagem { get; set; }        
         public bool disponivel { get; set; }
 
+        
+
         public List<Pedido>? pedidos { get; set; }
         public Categoria? categoria { get; set; } = null;
     }
