@@ -148,8 +148,12 @@ namespace Projecto_Back.Data
             context = data;
         }
 
-        public RetornoDados CriarPedidoDeCliente(Pedido pedido)
+        public RetornoDados CriarPedidoDeCliente(Pedido pedido, int IdCliente)
         {
+            var cliente = context?.Clientes?
+                            .Include(c => c.pedidos)
+                            .Single(c => c.Id == IdCliente);
+
             if (pedido is null)
                 return new RetornoDados()
                 {
@@ -157,11 +161,12 @@ namespace Projecto_Back.Data
                     Mensagem = "Insira um Pedido Valido"
                 };
 
-            context?.Pedidos?.Add(pedido);
+            cliente?.pedidos?.Add(pedido);
+
             if (context?.SaveChanges() > 0)
                 return new RetornoDados()
                 {
-                    Entidade = pedido,
+                    Entidade = null,
                     Mensagem = "Pedido adicionado com sucesso"
                 };
 
@@ -170,8 +175,11 @@ namespace Projecto_Back.Data
                 Entidade = null,
                 Mensagem = "Erro ao adicionar novo Pedido"
             };
-
         }
+
+        public RetornoDados AdicionarProdutoAoPedido(){
+            
+        } 
     }
 
     public class CategoriasAcessoDados
