@@ -16,7 +16,7 @@ namespace Projecto_Front.Models
 
         
 
-        public List<Pedido>? pedidos { get; set; }
-        public Categoria? categoria { get; set; } = null;
+        public List<Pedido> pedidos { get; set; }
+        public Categoria categoria { get; set; }
     }
 }

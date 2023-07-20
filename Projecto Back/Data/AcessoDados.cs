@@ -21,20 +21,59 @@ namespace Projecto_Back.Data
 
         public Object? LoginClienteCadastradoEmail(string email, string password)
         {
-            var cliente = context.Clientes
-                .AsNoTracking()
-                .FirstOrDefault(cl => cl.email == email && cl.password == password);
+            Cliente? cliente = context?.Clientes?
+                .Include(c => c.pedidos)
+                    .ThenInclude(p => p.produtos)
+                .Single(cl => cl.email == email && cl.password == password);
 
             if (cliente is null)
                 return null;
+
+            cliente = ResolverErroLoopCliente(cliente);
+            return cliente;
+        }
+
+        public RetornoDados RetornarPedidosDeCliente(int IdCliente)
+        {
+            Cliente? cliente = context?.Clientes?
+                .Include(c => c.pedidos)
+                .ThenInclude(p => p.produtos)
+                .ThenInclude(cat => cat.categoria)
+                .Single(cl => cl.Id == IdCliente);
+
+            if (cliente is null)
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = "Paciente nao Encontrado"
+                };
+
+            cliente = ResolverErroLoopCliente(cliente);
+            return new RetornoDados
+            {
+                Entidade = cliente,
+                Mensagem = "Paciente Encontrado"
+            };
+        }
+
+        public Cliente ResolverErroLoopCliente(Cliente? cliente)
+        {
+            foreach (var pedido in cliente.pedidos)
+            {
+                pedido.cliente = null;
+                foreach (var pedidosProduto in pedido.produtos)
+                {
+                    pedidosProduto.pedidos = null;
+                }
+            }
             return cliente;
         }
 
         public Object? LoginClienteCadastradoTelefone(int numeroTelefone, string password)
         {
-            var cliente = context?.Clientes
-                .AsNoTracking()
-                .FirstOrDefault(cl => cl.contacto == numeroTelefone && cl.password == password);
+            var cliente = context?.Clientes?
+                .Include(c => c.pedidos)
+                .Single(cl => cl.contacto == numeroTelefone && cl.password == password);
 
             if (cliente is null)
                 return null;
@@ -151,8 +190,8 @@ namespace Projecto_Back.Data
         public RetornoDados CriarPedidoDeCliente(Pedido pedido, int IdCliente)
         {
             var cliente = context?.Clientes?
-                            .Include(c => c.pedidos)
-                            .Single(c => c.Id == IdCliente);
+                .Include(c => c.pedidos)
+                .Single(c => c.Id == IdCliente);
 
             if (pedido is null)
                 return new RetornoDados()
@@ -177,9 +216,10 @@ namespace Projecto_Back.Data
             };
         }
 
-        public RetornoDados AdicionarProdutoAoPedido(){
-            
-        } 
+        public RetornoDados AdicionarProdutoAoPedido()
+        {
+            return new RetornoDados();
+        }
     }
 
     public class CategoriasAcessoDados

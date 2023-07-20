@@ -49,6 +49,14 @@ namespace Projecto_Back.Controllers
             return Retorno(cliente);
         }
 
+        [HttpGet]
+        [Route("Pedidos/{IdCliente}")]
+        public RetornoDados RetornarPedidos([FromServices] DataContext data, int IdCliente)
+        {
+            var acesso = new ClientesAcessoDados(data);
+            return acesso.RetornarPedidosDeCliente(IdCliente);
+        }
+
         private bool CredenciaisInseridasEValidos(DataContext contexto, string email, string password)
         {
             if (contexto is null && (email is null || password is null))
@@ -83,14 +91,15 @@ namespace Projecto_Back.Controllers
         [Route("Cliente/Novo")]
         public RetornoDados AdicionarNovoCliente([FromServices] DataContext data, [FromBody] Cliente cliente)
         {
-            if(cliente is null)
-                return new RetornoDados(){
+            if (cliente is null)
+                return new RetornoDados()
+                {
                     Entidade = null,
                     Mensagem = "Dados do Cliente Inválidos"
                 };
-            
+
             var dados = new ClientesAcessoDados(data);
             return dados.NovoCliente(cliente);
-        }   
+        }
     }
 }

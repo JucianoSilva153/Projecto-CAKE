@@ -14,7 +14,7 @@ namespace Projecto_Front.Models
         public int contacto { get; set; }
         public string? endereco { get; set; }
 
-        public List<Pedido>? pedidos { get; set; } = null;
+        public List<Pedido> pedidos { get; set; }
         
         
     }

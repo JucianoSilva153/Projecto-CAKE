@@ -14,7 +14,7 @@ namespace Projecto_Front.Models
         public string? data { get; set; }
 
         public Cliente? cliente { get; set; }
-        public List<Produto>? produtos { get; set; }
+        public List<Produto> produtos { get; set; }
 
         public static string GerarIdPedido(string nomeCliente)
         {

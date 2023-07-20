@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Projecto_Front.Context;
 
@@ -10,9 +11,11 @@ using Projecto_Front.Context;
 namespace Projecto_Back.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230720185734_SETListPedidosINClientesTONotNullable")]
+    partial class SETListPedidosINClientesTONotNullable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,7 +105,7 @@ namespace Projecto_Back.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("categoriaId")
+                    b.Property<int?>("categoriaId")
                         .HasColumnType("int");
 
                     b.Property<string>("descricao")
@@ -155,9 +158,7 @@ namespace Projecto_Back.Migrations
                 {
                     b.HasOne("Projecto_Front.Models.Categoria", "categoria")
                         .WithMany()
-                        .HasForeignKey("categoriaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("categoriaId");
 
                     b.Navigation("categoria");
                 });
