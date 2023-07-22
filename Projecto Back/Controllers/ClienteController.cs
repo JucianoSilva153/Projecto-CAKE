@@ -15,6 +15,15 @@ namespace Projecto_Back.Controllers
     [Route("api/[controller]")]
     public class ClienteController : ControllerBase
     {
+
+        [HttpGet]
+        [Route("Pedidos/{IdCliente}")]
+        public RetornoDados RetornarPedidos([FromServices] DataContext data, int IdCliente)
+        {
+            var acesso = new ClientesAcessoDados(data);
+            return acesso.RetornarPedidosDeCliente(IdCliente);
+        }
+
         [HttpGet]
         [Route("Login/Email/{email}/{password}")]
         public RetornoDados LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
@@ -47,14 +56,6 @@ namespace Projecto_Back.Controllers
             var cliente = acesso.LoginClienteCadastradoTelefone(numero, password);
 
             return Retorno(cliente);
-        }
-
-        [HttpGet]
-        [Route("Pedidos/{IdCliente}")]
-        public RetornoDados RetornarPedidos([FromServices] DataContext data, int IdCliente)
-        {
-            var acesso = new ClientesAcessoDados(data);
-            return acesso.RetornarPedidosDeCliente(IdCliente);
         }
 
         private bool CredenciaisInseridasEValidos(DataContext contexto, string email, string password)
