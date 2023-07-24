@@ -1,0 +1,57 @@
+<menu class="top-0 shadow shadow-Cor-Detalhes02">
+  <div class="flex w-full h-12 bg-Cor-Primaria text-Cor-Secundaria md:hidden">
+    <div class=" flex items-center justify-start w-1/5">
+      <img src="" alt="Icone Menu" @onclick="MostrarOcultarMenu">
+    </div>
+    <div class=" flex items-center justify-center w-4/5">
+      <img src="Logo" alt="Logotipo Empresa">
+    </div>
+  </div>
+
+  <nav id="hidden" class=" hidden w-screen h-12 bg-Cor-Primaria text-Cor-Secundaria  md:flex">
+    <ul class=" flex w-2/5 items-center justify-center space-x-4">
+      <li>Início</li>
+      <li>Sobre Nós</li>
+      <li>Contact</li>
+    </ul>
+
+    <div class=" flex items-center justify-center w-1/5">
+      <img src="" alt="Icone Menu">
+    </div>
+
+    <ul class=" flex w-2/5 items-center justify-center space-x-4">
+      <li>ICO01</li>
+      <li>ICO01</li>
+      <li>ICO01</li>
+    </ul>
+  </nav>
+
+<nav id="menu-hamburger" class=" fixed transition-opacity @classMostrar flex flex-wrap w-full h-2/3 top-0 bg-Cor-Secundaria drop-shadow">
+  <ul class=" w-full h-4/5">
+    <li>Início</li>
+    <li>Sobre Nós</li>
+    <li>Contactos</li>
+  </ul>
+
+  <ul class=" w-full h-1/5 flex justify-center items-center">
+    <li>ICO01</li>
+    <li>ICO01</li>
+    <li>ICO01</li>
+  </ul>
+</nav>
+
+</menu>
+
+@code{
+  public string classMostrar = "hidden";
+
+  public void MostrarOcultarMenu(){
+    if(classMostrar == "hidden"){
+      classMostrar = "block";
+    }else{
+      classMostrar = "hidden";
+    }
+  } 
+
+}
+

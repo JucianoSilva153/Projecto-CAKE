@@ -1,0 +1,23 @@
+@if(Tipo == "rounded" ){
+    tipoClass += " rounded-md";
+}else if(Tipo == "filled"){
+    tipoClass += " bg-Cor-Detalhes02 text-Cor-Secundaria";
+}else if(Tipo == "default"){
+    tipoClass += " text-Cor-Detalhes02";
+}else if(Tipo == "filled-rounded"){
+    tipoClass += " bg-Cor-Detalhes02 text-Cor-Secundaria rounded-md";
+}
+
+<button class="@tipoClass ">@Texto</button>
+
+@code{
+    [Parameter]
+    public string? Texto { get; set; }
+    
+    [Parameter]
+    public string? Tipo { get; set; } = "default";
+
+    public string tipoClass { get; set; } = "border-2 border-Cor-Detalhes02 mt-5 px-5 py-3 shadow-lg ";
+    
+    
+}
