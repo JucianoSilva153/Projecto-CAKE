@@ -1,0 +1,11 @@
+<section class=" bg-Cor-Primaria ">
+    <div class="p-3">
+      <h1 class=" text-2xl text-Cor-Secundaria font-bold">Mais Vendidos</h1>
+      <p class=" text-Cor-Secundaria">Alguns dos nosso produtos mais encomendados. Clientes satisfeitos estao sempre encomendado dia apos dia.</p>
+    </div>
+    <CardBestSeller produtos="@produto"></CardBestSeller>
+</section>
+
+@code{
+  public List<Produto> produto =  Produto.ListarProdutosBestSellers(); 
+}

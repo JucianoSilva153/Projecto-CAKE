@@ -1,0 +1,29 @@
+@foreach (var produto in produtos)
+{
+<div class="flex justify-center items-center p-5">
+  <div
+    id="card"
+    class="flex flex-wrap w-[95%] h-96 rounded-md shadow-md md:w-[300px] lg:w-[300px] shadow-Cor-Detalhes02"
+  >
+    <div
+      id="card-image"
+      class="w-full bg-Cor-Primaria h-2/5 rounded-t-md"
+    ></div>
+    <div
+      id="card-content"
+      class="flex flex-wrap items-center bg-Cor-Secundaria justify-center w-full h-3/5 rounded-b-md p-3"
+    >
+      <div class=" w-full">
+        <h1 class="w-full text-2xl font-bold text-Cor-Primaria">@produto.nome</h1>
+        <h1 class="w-full text-base font-bold text-Cor-Primaria">@produto.preco KZ</h1>
+      </div>
+      <p class="w-full">@produto.descricao</p>
+      <Botao Texto="Encomendar" Tipo="rounded"></Botao>
+    </div>
+  </div>
+</div>
+}
+
+@code {
+  [Parameter] public List<Produto> produtos { get; set; }
+} 

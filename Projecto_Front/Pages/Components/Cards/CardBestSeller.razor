@@ -1,0 +1,41 @@
+<div class="flex justify-start md:justify-center items-start md:flex-wrap md:items-center w-full overflow-x-scroll overflow-y-hidden md:overflow-hidden">
+  @foreach (var produto in produtos)
+  {
+    <div class="p-2">
+      <div
+        id="card"
+        class="flex flex-wrap w-[300px] rounded-md h-[300px] shadow-lg md:w-[330px] lg:w-[330px] shadow-Cor-Detalhes02"
+      >
+        <div
+          id="card-image"
+          class="w-full bg-Cor-Detalhes01 h-2/4 rounded-t-md"
+        ></div>
+        <div
+          id="card-content"
+          class="flex flex-none flex-wrap items-center bg-Cor-Secundaria justify-center w-full h-2/4 rounded-b-md p-3"
+        >
+          <div class="w-full flex">
+            <div class="w-3/4">
+              <h1 class="w-full text-xl font-bold text-Cor-Primaria">
+                @produto.nome
+              </h1>
+              <h1 class="w-full text-base font-bold text-Cor-Primaria">
+                @produto.preco KZ
+              </h1>
+            </div>
+            <div class="w-1/4 flex justify-center items-center flex-wrap">
+              <h1 class="text-2xl font-bold text-Cor-Primaria">+50</h1>
+              <span class="text-xs font-bold text-Cor-Primaria">Encomendas</span>
+            </div>
+          </div>
+          <Botao Texto="Ver" Tipo="rounded"></Botao>
+        </div>
+      </div>
+    </div>
+
+  }
+</div>
+
+@code {
+  [Parameter] public List<Produto> produtos { get; set; }
+} 

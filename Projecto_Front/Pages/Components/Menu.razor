@@ -8,7 +8,7 @@
     </div>
   </div>
 
-  <nav id="hidden" class=" hidden w-screen h-12 bg-Cor-Primaria text-Cor-Secundaria  md:flex">
+  <nav id="hidden" class=" hidden w-full h-12 bg-Cor-Primaria text-Cor-Secundaria  md:flex">
     <ul class=" flex w-2/5 items-center justify-center space-x-4">
       <li>Início</li>
       <li>Sobre Nós</li>
@@ -26,14 +26,15 @@
     </ul>
   </nav>
 
-<nav id="menu-hamburger" class=" fixed transition-opacity @classMostrar flex flex-wrap w-full h-2/3 top-0 bg-Cor-Secundaria drop-shadow">
-  <ul class=" w-full h-4/5">
-    <li>Início</li>
-    <li>Sobre Nós</li>
-    <li>Contactos</li>
+<nav id="menu-hamburger" class=" fixed transition-opacity @classMostrar flex flex-wrap w-full h-3/4 top-0 bg-Cor-Secundaria drop-shadow">
+  <ul class=" w-full space-y-3 text flex justify-center flex-wrap items-center h-4/5 text-Cor-Detalhes02">
+    <li class=" w-full h-8 hover:bg-Cor-Primaria active:bg-Cor-Detalhes02 p-2 hover:text-Cor-Secundaria">Início</li>
+    <li class=" w-full h-8 hover:bg-Cor-Primaria active:bg-Cor-Detalhes02 p-2 hover:text-Cor-Secundaria">Sobre Nós</li>
+    <li class=" w-full h-8 hover:bg-Cor-Primaria active:bg-Cor-Detalhes02 p-2 hover:text-Cor-Secundaria">Contactos</li>
+    <li class=" w-full h-8 hover:bg-Cor-Primaria active:bg-Cor-Detalhes02 p-2 hover:text-Cor-Secundaria" @onclick="MostrarOcultarMenu" >Fechar Menu</li>
   </ul>
 
-  <ul class=" w-full h-1/5 flex justify-center items-center">
+  <ul class=" w-full h-1/5 flex justify-center space-x-3 items-center bg-Cor-Primaria text-Cor-Secundaria">
     <li>ICO01</li>
     <li>ICO01</li>
     <li>ICO01</li>

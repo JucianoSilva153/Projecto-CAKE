@@ -1,0 +1,18 @@
+<section id="produtos" class=" mt-10">
+  
+  <div class=" px-3">
+    <h1 class=" text-2xl font-bold text-Cor-Primaria">O que fazemos</h1>
+    <p class=" text-Cor-Detalhes02">Desde doces a salgados, fazemos tudo para voce! De uma olhada nos nosso destaques.</p>
+  </div>
+  
+  <div class="flex flex-wrap justify-center items-center text-Cor-Detalhes02">
+    <CardProduto produtos="@produtos"></CardProduto>
+  </div>
+</section>
+
+@code{
+  public Produto prod = new Produto();
+  public List<Produto> produtos { get; set; } = Produto.ListarProdutosDestaques();
+  
+}
+
