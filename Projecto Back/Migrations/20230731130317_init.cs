@@ -29,20 +29,18 @@ namespace Projecto_Back.Migrations
                 .Annotation("MySQL:Charset", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Clientes",
+                name: "Usuario",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    nome = table.Column<string>(type: "longtext", nullable: true),
-                    email = table.Column<string>(type: "longtext", nullable: true),
-                    password = table.Column<string>(type: "longtext", nullable: true),
-                    contacto = table.Column<int>(type: "int", nullable: false),
-                    endereco = table.Column<string>(type: "longtext", nullable: true)
+                    nome = table.Column<string>(type: "longtext", nullable: false),
+                    password = table.Column<string>(type: "longtext", nullable: false),
+                    tipo = table.Column<string>(type: "longtext", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                    table.PrimaryKey("PK_Usuario", x => x.Id);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -57,7 +55,7 @@ namespace Projecto_Back.Migrations
                     preco = table.Column<double>(type: "double", nullable: false),
                     imagem = table.Column<string>(type: "longtext", nullable: true),
                     disponivel = table.Column<bool>(type: "tinyint(1)", nullable: false),
-                    categoriaId = table.Column<int>(type: "int", nullable: true)
+                    categoriaId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -66,7 +64,31 @@ namespace Projecto_Back.Migrations
                         name: "FK_Produtos_Categorias_categoriaId",
                         column: x => x.categoriaId,
                         principalTable: "Categorias",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySQL:Charset", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Clientes",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
+                    email = table.Column<string>(type: "longtext", nullable: true),
+                    contacto = table.Column<int>(type: "int", nullable: false),
+                    endereco = table.Column<string>(type: "longtext", nullable: true),
+                    usuarioId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Clientes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Clientes_Usuario_usuarioId",
+                        column: x => x.usuarioId,
+                        principalTable: "Usuario",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
@@ -116,32 +138,10 @@ namespace Projecto_Back.Migrations
                 })
                 .Annotation("MySQL:Charset", "utf8mb4");
 
-            migrationBuilder.CreateTable(
-                name: "PedidosProduto",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
-                    pedidoId = table.Column<int>(type: "int", nullable: false),
-                    produtoId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PedidosProduto", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PedidosProduto_Pedidos_pedidoId",
-                        column: x => x.pedidoId,
-                        principalTable: "Pedidos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_PedidosProduto_Produtos_produtoId",
-                        column: x => x.produtoId,
-                        principalTable: "Produtos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                })
-                .Annotation("MySQL:Charset", "utf8mb4");
+            migrationBuilder.CreateIndex(
+                name: "IX_Clientes_usuarioId",
+                table: "Clientes",
+                column: "usuarioId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_PedidoProduto_produtosId",
@@ -152,16 +152,6 @@ namespace Projecto_Back.Migrations
                 name: "IX_Pedidos_clienteId",
                 table: "Pedidos",
                 column: "clienteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PedidosProduto_pedidoId",
-                table: "PedidosProduto",
-                column: "pedidoId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PedidosProduto_produtoId",
-                table: "PedidosProduto",
-                column: "produtoId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Produtos_categoriaId",
@@ -176,9 +166,6 @@ namespace Projecto_Back.Migrations
                 name: "PedidoProduto");
 
             migrationBuilder.DropTable(
-                name: "PedidosProduto");
-
-            migrationBuilder.DropTable(
                 name: "Pedidos");
 
             migrationBuilder.DropTable(
@@ -189,6 +176,9 @@ namespace Projecto_Back.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categorias");
+
+            migrationBuilder.DropTable(
+                name: "Usuario");
         }
     }
 }

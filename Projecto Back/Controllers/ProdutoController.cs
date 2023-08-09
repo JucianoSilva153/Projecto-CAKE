@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projecto_Back.Data;
 using Projecto_Back.Models;
@@ -17,14 +18,25 @@ namespace Projecto_Back.Controllers
 
         [HttpGet]
         [Route("Produto/ById/{IdProduto}")]
+        [Authorize]
         public RetornoDados RetornarProdutoById([FromServices] DataContext data, int IdProduto)
         {
             var get = new ProdutosAcessoDados(data);
             return get.RetornarProdutoPeloID(IdProduto);
         }
 
+        [HttpGet]
+        [Route("Produto/")]
+        [AllowAnonymous]
+        public RetornoDados RetornarTodosProduto([FromServices] DataContext data)
+        {
+            var get = new ProdutosAcessoDados(data);
+            return get.RetornarTodosProduto();
+        }
+
         [HttpPost]
         [Route("Produto/Novo")]
+        [Authorize]
         public RetornoDados NovoProduto([FromServices] DataContext data, [FromBody] Produto produto)
         {
             if (produto is null)
@@ -40,6 +52,7 @@ namespace Projecto_Back.Controllers
 
         [HttpPut]
         [Route("Produto/Categoria/Adicionar/{IdProduto}")]
+        [Authorize]
         public RetornoDados AdicionarCategoria([FromServices] DataContext data, [FromBody] Categoria categoria, int IdProduto)
         {
             if ( IdProduto <= 0 ||  categoria is null)

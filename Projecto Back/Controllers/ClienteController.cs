@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projecto_Back.Data;
 using Projecto_Back.Models;
@@ -18,6 +19,7 @@ namespace Projecto_Back.Controllers
 
         [HttpGet]
         [Route("Pedidos/{IdCliente}")]
+        [Authorize]
         public RetornoDados RetornarPedidos([FromServices] DataContext data, int IdCliente)
         {
             var acesso = new ClientesAcessoDados(data);
@@ -26,6 +28,7 @@ namespace Projecto_Back.Controllers
 
         [HttpGet]
         [Route("Login/Email/{email}/{password}")]
+        [Authorize]
         public RetornoDados LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
         {
             if (!CredenciaisInseridasEValidos(data, email, password))
@@ -43,6 +46,7 @@ namespace Projecto_Back.Controllers
 
         [HttpGet]
         [Route("Login/Contacto/{numero}/{password}")]
+        [Authorize]
         public RetornoDados LoginClienteviaContacto([FromServices] DataContext data, int numero, string password)
         {
             if (!CredenciaisInseridasEValidos(data, numero, password))
@@ -90,6 +94,7 @@ namespace Projecto_Back.Controllers
 
         [HttpPost]
         [Route("Cliente/Novo")]
+        [Authorize]
         public RetornoDados AdicionarNovoCliente([FromServices] DataContext data, [FromBody] Cliente cliente)
         {
             if (cliente is null)

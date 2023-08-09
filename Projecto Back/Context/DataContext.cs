@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Projecto_Back.Models;
 using Projecto_Front.Models;
 
 namespace Projecto_Front.Context
@@ -15,6 +16,7 @@ namespace Projecto_Front.Context
         public DbSet<Produto>? Produtos { get; set; }
         public DbSet<Cliente>? Clientes { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Usuario> Usuario { get; set; }
 
         private readonly IConfiguration configuration;
 

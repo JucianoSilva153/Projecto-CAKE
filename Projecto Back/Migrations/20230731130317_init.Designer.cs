@@ -11,8 +11,8 @@ using Projecto_Front.Context;
 namespace Projecto_Back.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230720185734_SETListPedidosINClientesTONotNullable")]
-    partial class SETListPedidosINClientesTONotNullable
+    [Migration("20230731130317_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,6 +35,29 @@ namespace Projecto_Back.Migrations
                     b.HasIndex("produtosId");
 
                     b.ToTable("PedidoProduto");
+                });
+
+            modelBuilder.Entity("Projecto_Back.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("tipo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuario");
                 });
 
             modelBuilder.Entity("Projecto_Front.Models.Categoria", b =>
@@ -66,13 +89,12 @@ namespace Projecto_Back.Migrations
                     b.Property<string>("endereco")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("nome")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("password")
-                        .HasColumnType("longtext");
+                    b.Property<int>("usuarioId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("usuarioId");
 
                     b.ToTable("Clientes");
                 });
@@ -105,7 +127,7 @@ namespace Projecto_Back.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int?>("categoriaId")
+                    b.Property<int>("categoriaId")
                         .HasColumnType("int");
 
                     b.Property<string>("descricao")
@@ -145,6 +167,17 @@ namespace Projecto_Back.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Projecto_Front.Models.Cliente", b =>
+                {
+                    b.HasOne("Projecto_Back.Models.Usuario", "usuario")
+                        .WithMany()
+                        .HasForeignKey("usuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
+                });
+
             modelBuilder.Entity("Projecto_Front.Models.Pedido", b =>
                 {
                     b.HasOne("Projecto_Front.Models.Cliente", "cliente")
@@ -158,7 +191,9 @@ namespace Projecto_Back.Migrations
                 {
                     b.HasOne("Projecto_Front.Models.Categoria", "categoria")
                         .WithMany()
-                        .HasForeignKey("categoriaId");
+                        .HasForeignKey("categoriaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("categoria");
                 });

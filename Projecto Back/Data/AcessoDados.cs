@@ -24,7 +24,8 @@ namespace Projecto_Back.Data
             Cliente? cliente = context?.Clientes?
                 .Include(c => c.pedidos)
                     .ThenInclude(p => p.produtos)
-                .Single(cl => cl.email == email && cl.password == password);
+                .Include(c => c.usuario)
+                .Single(cl => cl.email == email && cl.usuario.password == password);
 
             if (cliente is null)
                 return null;
@@ -73,7 +74,8 @@ namespace Projecto_Back.Data
         {
             var cliente = context?.Clientes?
                 .Include(c => c.pedidos)
-                .Single(cl => cl.contacto == numeroTelefone && cl.password == password);
+                .Include(c => c.usuario)
+                .Single(cl => cl.contacto == numeroTelefone && cl.usuario.password == password);
 
             if (cliente is null)
                 return null;
@@ -148,6 +150,26 @@ namespace Projecto_Back.Data
                 var produtoRetornado = context.Produtos
                             .Include(p => p.categoria)
                             .Single(p => p.Id == IdProduto);
+
+                if (produtoRetornado is null)
+                    mensagem = "Erro ao retornar Produto";
+
+                return new RetornoDados()
+                {
+                    Entidade = produtoRetornado,
+                    Mensagem = mensagem
+                };
+            }
+        }
+        public RetornoDados RetornarTodosProduto()
+        {
+            var mensagem = "Produto retornado com sucesso!";
+
+            using (context)
+            {
+                var produtoRetornado = context.Produtos
+                            .Include(p => p.categoria)
+                            .ToList();
 
                 if (produtoRetornado is null)
                     mensagem = "Erro ao retornar Produto";

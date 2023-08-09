@@ -34,6 +34,29 @@ namespace Projecto_Back.Migrations
                     b.ToTable("PedidoProduto");
                 });
 
+            modelBuilder.Entity("Projecto_Back.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    b.Property<string>("nome")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("password")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("tipo")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuario");
+                });
+
             modelBuilder.Entity("Projecto_Front.Models.Categoria", b =>
                 {
                     b.Property<int>("Id")
@@ -63,13 +86,12 @@ namespace Projecto_Back.Migrations
                     b.Property<string>("endereco")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("nome")
-                        .HasColumnType("longtext");
-
-                    b.Property<string>("password")
-                        .HasColumnType("longtext");
+                    b.Property<int>("usuarioId")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("usuarioId");
 
                     b.ToTable("Clientes");
                 });
@@ -140,6 +162,17 @@ namespace Projecto_Back.Migrations
                         .HasForeignKey("produtosId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Projecto_Front.Models.Cliente", b =>
+                {
+                    b.HasOne("Projecto_Back.Models.Usuario", "usuario")
+                        .WithMany()
+                        .HasForeignKey("usuarioId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("usuario");
                 });
 
             modelBuilder.Entity("Projecto_Front.Models.Pedido", b =>

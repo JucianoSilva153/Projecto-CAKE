@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Projecto_Back.Data;
 using Projecto_Back.Models;
@@ -16,6 +17,7 @@ namespace Projecto_Back.Controllers
     {
         [HttpPost]
         [Route("Categoria/Nova")]
+        [Authorize]
         public RetornoDados NovaCategoria([FromServices] DataContext data, [FromBody] Categoria categoria)
         {
             if(categoria is null)
