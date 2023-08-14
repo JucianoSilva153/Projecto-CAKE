@@ -13,7 +13,7 @@ using Projecto_Front.Models;
 namespace Projecto_Back.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Cliente")]
     public class ClienteController : ControllerBase
     {
 
@@ -27,7 +27,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
-        [Route("/{IdCliente}")]
+        [Route("{IdCliente}")]
         [Authorize]
         public RetornoDados RetornarClientePeloID([FromServices] DataContext data, int IdCliente)
         {
@@ -36,7 +36,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
-        [Route("/")]
+        [Route("Todos")]
         [Authorize]
         public RetornoDados RetornarClienteTodos([FromServices] DataContext data)
         {
@@ -48,7 +48,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
-        [Route("/Email/{email}/{password}")]
+        [Route("Email/{email}/{password}")]
         [Authorize]
         public RetornoDados LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
         {
@@ -66,7 +66,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
-        [Route("/Contacto/{numero}/{password}")]
+        [Route("Contacto/{numero}/{password}")]
         [Authorize]
         public RetornoDados LoginClienteviaContacto([FromServices] DataContext data, int numero, string password)
         {
@@ -114,7 +114,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpPost]
-        [Route("/Novo")]
+        [Route("Novo")]
         [Authorize]
         public RetornoDados AdicionarNovoCliente([FromServices] DataContext data, [FromBody] Cliente cliente)
         {
@@ -130,7 +130,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpPut]
-        [Route("/Alterar/{ID}")]
+        [Route("Alterar/{ID}")]
         [Authorize]
         public RetornoDados AlterarCliente([FromServices] DataContext data, Cliente cliente)
         {
@@ -162,7 +162,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpDelete]
-        [Route("/Eliminar/{ID}")]
+        [Route("Eliminar/{ID}")]
         [AllowAnonymous]
         public RetornoDados EliminarCliente([FromServices] DataContext data, int ID)
         {

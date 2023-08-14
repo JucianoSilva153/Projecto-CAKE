@@ -205,7 +205,6 @@ namespace Projecto_Back.Data
                 };
             }
         }
-
         public RetornoDados AdicionarCategoriaDeProduto(Categoria categoria, int IdProduto)
         {
             var produto = context.Produtos.Single(p => p.Id == IdProduto);
@@ -220,6 +219,29 @@ namespace Projecto_Back.Data
             {
                 Entidade = null,
                 Mensagem = "Erro ao adicionar categoria"
+            };
+        }
+
+        public RetornoDados AlterarProduto(Produto produto)
+        {
+            try
+            {
+                context.Produtos.Update(produto);
+                context.SaveChanges();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = $"Erro ao Tentar Atualizar o produto. Erro: {erro.Message}"
+                };
+            }
+
+            return new RetornoDados
+            {
+                Entidade = produto,
+                Mensagem = "Produto Alterado com Sucesso"
             };
         }
     }

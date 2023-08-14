@@ -12,12 +12,12 @@ using Projecto_Front.Models;
 namespace Projecto_Back.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/Produto")]
     public class ProdutoController : ControllerBase
     {
 
         [HttpGet]
-        [Route("Produto/ById/{IdProduto}")]
+        [Route("{IdProduto}")]
         [Authorize]
         public RetornoDados RetornarProdutoById([FromServices] DataContext data, int IdProduto)
         {
@@ -26,7 +26,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
-        [Route("Produto/")]
+        [Route("Todos")]
         [AllowAnonymous]
         public RetornoDados RetornarTodosProduto([FromServices] DataContext data)
         {
@@ -35,7 +35,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpPost]
-        [Route("Produto/Novo")]
+        [Route("Novo")]
         [Authorize]
         public RetornoDados NovoProduto([FromServices] DataContext data, [FromBody] Produto produto)
         {
@@ -51,18 +51,37 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpPut]
-        [Route("Produto/Categoria/Adicionar/{IdProduto}")]
+        [Route("Categoria/Nova/{IdProduto}")]
         [Authorize]
         public RetornoDados AdicionarCategoria([FromServices] DataContext data, [FromBody] Categoria categoria, int IdProduto)
         {
-            if ( IdProduto <= 0 ||  categoria is null)
-                return new RetornoDados(){
+            if (IdProduto <= 0 || categoria is null)
+                return new RetornoDados()
+                {
                     Entidade = null,
                     Mensagem = "Erro. Insira os Dados corretos"
                 };
-            
+
             var add = new ProdutosAcessoDados(data);
             return add.AdicionarCategoriaDeProduto(categoria, IdProduto);
         }
+
+        [HttpPut]
+        [Route("Alterar")]
+        [Authorize]
+        public RetornoDados AlterarProduto([FromServices] DataContext data, [FromBody] Produto produto)
+        {
+            if (produto is null)
+                return new RetornoDados()
+                {
+                    Entidade = null,
+                    Mensagem = "Erro. Insira os Dados corretos"
+                };
+
+            var add = new ProdutosAcessoDados(data);
+            return add.AlterarProduto(produto);
+        }
+
+
     }
 }
