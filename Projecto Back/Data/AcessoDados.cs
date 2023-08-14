@@ -143,8 +143,16 @@ namespace Projecto_Back.Data
 
         public RetornoDados NovoProduto(Produto produto)
         {
+
+            int IDCategoria = 0;
+
             try
             {
+                if(produto.categoria.Id > 0){
+                    IDCategoria = produto.categoria.Id;
+                    produto.categoria = context.Categorias.Find(IDCategoria);
+                }
+
                 context.Produtos.Add(produto);
                 context.SaveChanges();
             }
