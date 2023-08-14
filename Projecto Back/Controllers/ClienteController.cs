@@ -36,6 +36,18 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
+        [Route("/")]
+        [Authorize]
+        public RetornoDados RetornarClienteTodos([FromServices] DataContext data)
+        {
+            var clientes = data.Clientes.ToList();
+            return new RetornoDados{
+                Entidade = clientes,
+                Mensagem = $"{clientes.Count} clientes encontrados!!"
+            };
+        }
+
+        [HttpGet]
         [Route("/Email/{email}/{password}")]
         [Authorize]
         public RetornoDados LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
