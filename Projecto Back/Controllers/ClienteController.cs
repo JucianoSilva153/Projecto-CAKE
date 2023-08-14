@@ -20,14 +20,23 @@ namespace Projecto_Back.Controllers
         [HttpGet]
         [Route("Pedidos/{IdCliente}")]
         [Authorize]
-        public RetornoDados RetornarPedidos([FromServices] DataContext data, int IdCliente)
+        public RetornoDados RetornarPedidosDeClientePeloID([FromServices] DataContext data, int IdCliente)
         {
             var acesso = new ClientesAcessoDados(data);
             return acesso.RetornarPedidosDeCliente(IdCliente);
         }
 
         [HttpGet]
-        [Route("Login/Email/{email}/{password}")]
+        [Route("/{IdCliente}")]
+        [Authorize]
+        public RetornoDados RetornarClientePeloID([FromServices] DataContext data, int IdCliente)
+        {
+            var acesso = new ClientesAcessoDados(data);
+            return acesso.RetornarClientePeloID(IdCliente);
+        }
+
+        [HttpGet]
+        [Route("/Email/{email}/{password}")]
         [Authorize]
         public RetornoDados LoginClienteViaEmail([FromServices] DataContext data, string email, string password)
         {
@@ -45,7 +54,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpGet]
-        [Route("Login/Contacto/{numero}/{password}")]
+        [Route("/Contacto/{numero}/{password}")]
         [Authorize]
         public RetornoDados LoginClienteviaContacto([FromServices] DataContext data, int numero, string password)
         {
@@ -93,7 +102,7 @@ namespace Projecto_Back.Controllers
         }
 
         [HttpPost]
-        [Route("Cliente/Novo")]
+        [Route("/Novo")]
         [Authorize]
         public RetornoDados AdicionarNovoCliente([FromServices] DataContext data, [FromBody] Cliente cliente)
         {
@@ -106,6 +115,65 @@ namespace Projecto_Back.Controllers
 
             var dados = new ClientesAcessoDados(data);
             return dados.NovoCliente(cliente);
+        }
+
+        [HttpPut]
+        [Route("/Alterar/{ID}")]
+        [Authorize]
+        public RetornoDados AlterarCliente([FromServices] DataContext data, Cliente cliente)
+        {
+            var clienteAlterado = data.Clientes.AsNoTracking().Single(c => c.Id == cliente.Id);
+
+            try
+            {
+                clienteAlterado.contacto = cliente.contacto;
+                clienteAlterado.email = cliente.email;
+                clienteAlterado.endereco = cliente.endereco;
+                clienteAlterado.usuario = cliente.usuario;
+                data.Clientes.Update(clienteAlterado);
+                data.SaveChanges();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = $"Erro ao Alterar Cliente. Erro: '{erro.Message}'"
+                };
+            }
+
+            return new RetornoDados
+            {
+                Entidade = cliente,
+                Mensagem = "Cliente Atualizado com Sucesso"
+            };
+        }
+
+        [HttpDelete]
+        [Route("/Eliminar/{ID}")]
+        [AllowAnonymous]
+        public RetornoDados EliminarCliente([FromServices] DataContext data, int ID)
+        {
+            try
+            {
+                var cliente = data.Clientes.AsNoTracking().Single(c => c.Id == ID);
+                data.Clientes.Remove(cliente);
+                data.SaveChanges();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = $"Erro ao Eliminar Cliente. Erro: '{erro.Message}'"
+                };
+            }
+
+            return new RetornoDados
+            {
+                Entidade = null,
+                Mensagem = "Cliente eliminado com sucesso!!"
+            };
         }
     }
 }

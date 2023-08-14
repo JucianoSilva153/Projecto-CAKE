@@ -19,7 +19,7 @@ namespace Projecto_Back.Data
             context = data;
         }
 
-        public Object? LoginClienteCadastradoEmail(string email, string password)
+        public Cliente? LoginClienteCadastradoEmail(string email, string password)
         {
             Cliente? cliente = context?.Clientes?
                 .Include(c => c.pedidos)
@@ -38,8 +38,32 @@ namespace Projecto_Back.Data
         {
             Cliente? cliente = context?.Clientes?
                 .Include(c => c.pedidos)
-                .ThenInclude(p => p.produtos)
-                .ThenInclude(cat => cat.categoria)
+                    .ThenInclude(p => p.produtos)
+                        .ThenInclude(cat => cat.categoria)
+                .Single(cl => cl.Id == IdCliente);
+
+            if (cliente is null)
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = "Paciente nao Encontrado"
+                };
+
+            cliente = ResolverErroLoopCliente(cliente);
+            return new RetornoDados
+            {
+                Entidade = cliente.pedidos,
+                Mensagem = "Paciente Encontrado"
+            };
+        }
+
+        public RetornoDados RetornarClientePeloID(int IdCliente)
+        {
+            Cliente? cliente = context?.Clientes?
+                .Include(c => c.pedidos)
+                    .ThenInclude(p => p.produtos)
+                        .ThenInclude(cat => cat.categoria)
+                .Include(u => u.usuario)
                 .Single(cl => cl.Id == IdCliente);
 
             if (cliente is null)
@@ -70,7 +94,7 @@ namespace Projecto_Back.Data
             return cliente;
         }
 
-        public Object? LoginClienteCadastradoTelefone(int numeroTelefone, string password)
+        public Cliente? LoginClienteCadastradoTelefone(int numeroTelefone, string password)
         {
             var cliente = context?.Clientes?
                 .Include(c => c.pedidos)
