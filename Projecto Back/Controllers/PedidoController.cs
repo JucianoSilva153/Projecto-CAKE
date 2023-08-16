@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Projecto_Back.Data;
 using Projecto_Back.Models;
 using Projecto_Front.Context;
@@ -16,13 +16,12 @@ namespace Projecto_Back.Controllers
     [Route("api/[controller]")]
     public class PedidoController : ControllerBase
     {
-
         [HttpPost]
-        [Route("/Cliente/Adicionar/{IdCliente}")]
+        [Route("Novo/{IdCliente}")]
         [Authorize]
         public RetornoDados AdicionarPedidoAoCliente ([FromServices]DataContext data,[FromBody]List<Produto>? produtos, int IdCliente){
             var add = new PedidosAcessoDados(data);
-            var cliente = data.Clientes?.Include(c => c.usuario).SingleOrDefault(c => c.Id == IdCliente);
+            var cliente = data.Clientes.Include(c => c.usuario).Single(c => c.Id == IdCliente);
             if(cliente is null)
                 return new RetornoDados(){Entidade = null, Mensagem = "Erro, Cliente não encontrado!!"};
 
@@ -36,5 +35,15 @@ namespace Projecto_Back.Controllers
             
             return add.CriarPedidoDeCliente(pedido, IdCliente);
         }
+
+        [HttpPost]
+        [Route("Produto/Adicionar/{IDPedido}")]
+        [Authorize]
+        public RetornoDados AdicionarProdutosAUmPedido([FromServices] DataContext data,[FromBody] List<Produto> produtos, string IDPedido){
+            var servico = new PedidosAcessoDados(data);
+
+            return servico.AdicionarProdutoAoPedido(IDPedido, produtos);
+        }
+
     }
 }

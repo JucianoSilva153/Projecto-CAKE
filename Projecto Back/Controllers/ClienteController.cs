@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Projecto_Back.Data;
 using Projecto_Back.Models;
 using Projecto_Front.Context;
@@ -38,13 +38,10 @@ namespace Projecto_Back.Controllers
         [HttpGet]
         [Route("Todos")]
         [Authorize]
-        public RetornoDados RetornarClienteTodos([FromServices] DataContext data)
+        public async Task<RetornoDados> RetornarClienteTodos([FromServices] DataContext data)
         {
-            var clientes = data.Clientes.ToList();
-            return new RetornoDados{
-                Entidade = clientes,
-                Mensagem = $"{clientes.Count} clientes encontrados!!"
-            };
+            var servico = new ClientesAcessoDados(data);
+            return await servico.RetornarTodosClientes();
         }
 
         [HttpGet]

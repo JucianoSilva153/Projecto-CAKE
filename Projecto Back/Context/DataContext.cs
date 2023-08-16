@@ -32,7 +32,8 @@ namespace Projecto_Front.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-
+            modelBuilder.Entity<Cliente>()
+                        .HasOne(c => c.usuario);
         }
     }
 

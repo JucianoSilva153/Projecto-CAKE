@@ -81,19 +81,6 @@ namespace Projecto_Back.Data
             };
         }
 
-        public Cliente ResolverErroLoopCliente(Cliente? cliente)
-        {
-            foreach (var pedido in cliente.pedidos)
-            {
-                pedido.cliente = null;
-                foreach (var pedidosProduto in pedido.produtos)
-                {
-                    pedidosProduto.pedidos = null;
-                }
-            }
-            return cliente;
-        }
-
         public Cliente? LoginClienteCadastradoTelefone(int numeroTelefone, string password)
         {
             var cliente = context?.Clientes?
@@ -130,6 +117,39 @@ namespace Projecto_Back.Data
 
             };
         }
+
+        public async Task<RetornoDados> RetornarTodosClientes()
+        {
+            var clientes = await context.Clientes
+                    .Include(c => c.usuario)
+                    .Include(c => c.pedidos)
+                        .ThenInclude(p => p.produtos)
+                    .ToListAsync();
+            
+            var listaRetorno = new List<Cliente>();
+            foreach (var item in clientes)
+            {
+                listaRetorno.Add(ResolverErroLoopCliente(item));
+            }
+
+            return new RetornoDados{
+                Entidade = listaRetorno,
+                Mensagem = $"{listaRetorno.Count} Clientes Retornados."
+            };
+        }
+
+        public Cliente ResolverErroLoopCliente(Cliente? cliente)
+        {
+            foreach (var pedido in cliente.pedidos)
+            {
+                pedido.cliente = null;
+                foreach (var pedidosProduto in pedido.produtos)
+                {
+                    pedidosProduto.pedidos = null;
+                }
+            }
+            return cliente;
+        }
     }
 
     public class ProdutosAcessoDados
@@ -148,7 +168,8 @@ namespace Projecto_Back.Data
 
             try
             {
-                if(produto.categoria.Id > 0){
+                if (produto.categoria.Id > 0)
+                {
                     IDCategoria = produto.categoria.Id;
                     produto.categoria = context.Categorias.Find(IDCategoria);
                 }
@@ -252,6 +273,38 @@ namespace Projecto_Back.Data
                 Mensagem = "Produto Alterado com Sucesso"
             };
         }
+
+        public RetornoDados EliminarProduto(int IDProduto)
+        {
+            try
+            {
+                var produto = context.Produtos.Find(IDProduto);
+                if (produto is null)
+                    return new RetornoDados
+                    {
+                        Entidade = null,
+                        Mensagem = "Produto Nao encontrado"
+                    };
+
+                context.Produtos.Remove(produto);
+                context.SaveChanges();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = $"Erro ao Eliminar produto. Erro: '{erro.Message}'"
+                };
+            }
+
+            return new RetornoDados
+            {
+                Entidade = null,
+                Mensagem = "Produto Eliminado com Sucesso"
+            };
+
+        }
     }
 
     public class PedidosAcessoDados
@@ -292,9 +345,46 @@ namespace Projecto_Back.Data
             };
         }
 
-        public RetornoDados AdicionarProdutoAoPedido()
+        public RetornoDados AdicionarProdutoAoPedido(string IDPedido, List<Produto> produtos)
         {
-            return new RetornoDados();
+
+            try
+            {
+                var pedidoClientes = context.Pedidos
+                    .Include(p => p.cliente)
+                        .ThenInclude(c => c.pedidos)
+                    .Include(p => p.produtos)
+                    .Single(p => p.cliente.pedidos.Any(cp => cp.IdPedido == IDPedido));
+
+                if (pedidoClientes is null)
+                    return new RetornoDados
+                    {
+                        Entidade = null,
+                        Mensagem = "Erro, Impossivel encontrar pedido!!"
+                    };
+
+                foreach (var item in produtos)
+                {
+                    if (!(pedidoClientes.produtos.Exists(p => p.Id == item.Id)))
+                        pedidoClientes.produtos.Add(item);
+                }
+
+                context.SaveChangesAsync();
+            }
+            catch (System.Exception erro)
+            {
+                return new RetornoDados
+                {
+                    Entidade = null,
+                    Mensagem = $"Erro ao Adicionar Produto ao Pedido. Erro: '{erro.Message}'"
+                };
+            }
+
+            return new RetornoDados
+            {
+                Entidade = null,
+                Mensagem = "Produto Adicionado com Sucesso"
+            };
         }
     }
 

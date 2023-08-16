@@ -82,6 +82,23 @@ namespace Projecto_Back.Controllers
             return add.AlterarProduto(produto);
         }
 
+        [HttpDelete]
+        [Route("Eliminar/{ID}")]
+        [Authorize]
+        public RetornoDados EliminarProduto([FromServices] DataContext data, int ID)
+        {
+            var produto =  data.Produtos.Find(ID);
+            if (produto is null)
+                return new RetornoDados()
+                {
+                    Entidade = null,
+                    Mensagem = "Erro ao eliminar produto, produto nao encontrado"
+                };
+
+            var add = new ProdutosAcessoDados(data);
+            return add.EliminarProduto(ID);
+        }
+
 
     }
 }
