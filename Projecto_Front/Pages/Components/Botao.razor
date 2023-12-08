@@ -1,23 +1,36 @@
-@if(Tipo == "rounded" ){
+@if (Tipo == "rounded")
+{
     tipoClass += " rounded-md text-Cor-Detalhes02 hover:bg-Cor-Detalhes02 hover:text-Cor-Secundaria";
-}else if(Tipo == "filled"){
+}
+else if (Tipo == "filled")
+{
     tipoClass += " bg-Cor-Detalhes02 text-Cor-Secundaria hover:text-Cor-Detalhes02";
-}else if(Tipo == "default"){
+}
+else if (Tipo == "default")
+{
     tipoClass += " text-Cor-Detalhes02 hover:bg-Cor-Detalhes02 hover:text-Cor-Detalhes02";
-}else if(Tipo == "filled-rounded"){
+}
+else if (Tipo == "filled-rounded")
+{
     tipoClass += " bg-Cor-Detalhes02 hover:bg-Cor-Primaria text-Cor-Secundaria rounded-md hover:text-Cor-Secundaria";
 }
 
-<button class="@tipoClass ">@Texto</button>
+@if (submit){
+    <button type="submit" class="@tipoClass ">@Texto</button>
+}else{
+    <button class="@tipoClass ">@Texto</button>
+}
 
-@code{
-    [Parameter]
-    public string? Texto { get; set; }
-    
-    [Parameter]
-    public string? Tipo { get; set; } = "default";
 
-    public string tipoClass { get; set; } = "border-2 border-Cor-Detalhes02 mt-5 px-5 py-3 shadow-lg hover:scale-105 transition";
-    
-    
+
+@code {
+
+    [Parameter] public bool submit {get; set;} = false;
+    [Parameter] public string? Texto { get; set; }
+
+    [Parameter] public string? Tipo { get; set; } = "default";
+
+    public string tipoClass { get; set; } = "border-2 border-Cor-Detalhes02 px-5 py-3 shadow-lg hover:scale-105 transition";
+
+
 }

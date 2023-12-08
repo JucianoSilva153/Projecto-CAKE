@@ -1,6 +1,7 @@
 @if (@Tipo == "pesquisa")
 {
-    <input type="search" class="@estiloPadrao" placeholder="@Placeholder" />
+    <input type="search" class="@estiloPadrao" placeholder="@Placeholder" value="@Valor"  />
+    <Botao Tipo = "filled-rounded" Texto="Pesquisar"></Botao>
 }
 else if (@Tipo == "texto")
 {
@@ -23,6 +24,7 @@ else if (@Tipo == "numero")
 @code {
     [Parameter] public string? Tipo { get; set; }
     [Parameter] public string? Placeholder { get; set; }
+    public string? Valor {get; set;}
 
     private string estiloPadrao {get;} = " p-1 w-full rounded-sm border-2 border-Cor-Primaria focus:border-Cor-Detalhes01 focus:outline-none ";
 }

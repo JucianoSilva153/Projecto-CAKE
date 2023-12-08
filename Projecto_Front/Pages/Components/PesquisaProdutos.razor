@@ -1,0 +1,18 @@
+<form action="post" @onsubmit="@ListarProdutos" class="w-full">
+    <div class="flex w-full space-x-1">
+        <input type="search" @bind-value="pesquisa"
+            class="p-1 w-full rounded-sm border-2 border-Cor-Primaria focus:border-Cor-Detalhes01 focus:outline-none ">
+        <Botao Texto="Pesquisar" Tipo="filled-rounded" submit="true"></Botao>
+    </div>
+</form>
+
+<CardProduto produtos="@produtos"></CardProduto>
+
+@code {
+    private List<Produto> produtos = new List<Produto>();
+    private string? pesquisa;
+    void ListarProdutos()
+    {
+        produtos = Produto.PesquisarProdutos(pesquisa);
+    }
+}
