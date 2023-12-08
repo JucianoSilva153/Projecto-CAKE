@@ -530,6 +530,14 @@ video {
   top: 0px;
 }
 
+.m-1 {
+  margin: 0.25rem;
+}
+
+.m-2 {
+  margin: 0.5rem;
+}
+
 .my-1 {
   margin-top: 0.25rem;
   margin-bottom: 0.25rem;
@@ -733,6 +741,11 @@ video {
   border-color: rgb(159 122 129 / var(--tw-border-opacity));
 }
 
+.border-Cor-Primaria {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 112 138 / var(--tw-border-opacity));
+}
+
 .bg-Cor-Detalhes01 {
   --tw-bg-opacity: 1;
   background-color: rgb(255 31 72 / var(--tw-bg-opacity));
@@ -763,6 +776,10 @@ video {
 
 .p-5 {
   padding: 1.25rem;
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .px-3 {
@@ -870,6 +887,42 @@ video {
   transition-duration: 150ms;
 }
 
+.selection\:border-Cor-Detalhes01 *::-moz-selection {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 31 72 / var(--tw-border-opacity));
+}
+
+.selection\:border-Cor-Detalhes01 *::selection {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 31 72 / var(--tw-border-opacity));
+}
+
+.selection\:outline-Cor-Detalhes01 *::-moz-selection {
+  outline-color: #FF1F48;
+}
+
+.selection\:outline-Cor-Detalhes01 *::selection {
+  outline-color: #FF1F48;
+}
+
+.selection\:border-Cor-Detalhes01::-moz-selection {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 31 72 / var(--tw-border-opacity));
+}
+
+.selection\:border-Cor-Detalhes01::selection {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 31 72 / var(--tw-border-opacity));
+}
+
+.selection\:outline-Cor-Detalhes01::-moz-selection {
+  outline-color: #FF1F48;
+}
+
+.selection\:outline-Cor-Detalhes01::selection {
+  outline-color: #FF1F48;
+}
+
 .hover\:scale-105:hover {
   --tw-scale-x: 1.05;
   --tw-scale-y: 1.05;
@@ -894,6 +947,29 @@ video {
 .hover\:text-Cor-Secundaria:hover {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.focus\:border-none:focus {
+  border-style: none;
+}
+
+.focus\:border-Cor-Detalhes01:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 31 72 / var(--tw-border-opacity));
+}
+
+.focus\:outline-none:focus {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.focus\:outline-Cor-Detalhes01:focus {
+  outline-color: #FF1F48;
+}
+
+.active\:border-Cor-Detalhes01:active {
+  --tw-border-opacity: 1;
+  border-color: rgb(255 31 72 / var(--tw-border-opacity));
 }
 
 .active\:bg-Cor-Detalhes02:active {
