@@ -540,6 +540,11 @@ video {
   margin-bottom: 1.25rem;
 }
 
+.my-3 {
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
 .mt-10 {
   margin-top: 2.5rem;
 }
@@ -994,10 +999,23 @@ video {
     overflow: hidden;
   }
 
+  .md\:rounded-lg {
+    border-radius: 0.5rem;
+  }
+
+  .md\:p-2 {
+    padding: 0.5rem;
+  }
+
   .md\:shadow-sm {
     --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
     --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color);
     box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  }
+
+  .md\:shadow-Cor-Primaria {
+    --tw-shadow-color: #FF708A;
+    --tw-shadow: var(--tw-shadow-colored);
   }
 }
 
