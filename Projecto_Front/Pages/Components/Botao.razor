@@ -1,36 +1,37 @@
 @if (Tipo == "rounded")
 {
-    tipoClass += " rounded-md text-Cor-Detalhes02 hover:bg-Cor-Detalhes02 hover:text-Cor-Secundaria";
+    tipoClass += $" w-[{Tamanho}] rounded-md text-Cor-Detalhes02 hover:bg-Cor-Detalhes02 hover:text-Cor-Secundaria";
 }
 else if (Tipo == "filled")
 {
-    tipoClass += " bg-Cor-Detalhes02 text-Cor-Secundaria hover:text-Cor-Detalhes02";
+    tipoClass += $" w-[{Tamanho}] bg-Cor-Detalhes02 text-Cor-Secundaria hover:text-Cor-Detalhes02";
 }
 else if (Tipo == "default")
 {
-    tipoClass += " text-Cor-Detalhes02 hover:bg-Cor-Detalhes02 hover:text-Cor-Detalhes02";
+    tipoClass += $" w-[{Tamanho}] text-Cor-Detalhes02 hover:bg-Cor-Detalhes02 hover:text-Cor-Detalhes02";
 }
 else if (Tipo == "filled-rounded")
 {
-    tipoClass += " bg-Cor-Detalhes02 hover:bg-Cor-Primaria text-Cor-Secundaria rounded-md hover:text-Cor-Secundaria";
+    tipoClass += $" w-[{Tamanho}] bg-Cor-Detalhes02 hover:bg-Cor-Primaria text-Cor-Secundaria rounded-md hover:text-Cor-Secundaria";
 }
 
-@if (submit){
-    <button type="submit" class="@tipoClass ">@Texto</button>
+@if (Submit){
+    <button type="submit" class="@tipoClass ">@ChildContent</button>
 }else{
-    <button class="@tipoClass ">@Texto</button>
+    <button class="@tipoClass ">@ChildContent</button>
 }
 
 
 
 @code {
 
-    [Parameter] public bool submit {get; set;} = false;
-    [Parameter] public string? Texto { get; set; }
-
+    [Parameter] public bool Submit {get; set;} = false;
+    [Parameter] public RenderFragment? ChildContent { get; set; }
     [Parameter] public string? Tipo { get; set; } = "default";
+    [Parameter] public string? Tamanho {get; set;} = "150px";
 
-    public string tipoClass { get; set; } = "border-2 border-Cor-Detalhes02 px-5 py-3 shadow-lg hover:scale-105 transition";
+
+    public string tipoClass = "border-2 border-Cor-Detalhes02 px-5 py-3 shadow-lg hover:scale-105 transition";
 
 
 }
